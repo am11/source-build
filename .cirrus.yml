@@ -10,4 +10,4 @@ freebsd_build_task:
     - pkg install -y bash nano cmake openssl ca_root_nss icu libunwind krb5 git
     - git submodule update --init
 
-  build_script: ./build.sh /p:OSGroup=FreeBSD
+  build_script: ./build.sh
