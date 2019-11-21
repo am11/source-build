@@ -1,0 +1,14 @@
+freebsd_instance:
+  image: freebsd-11-2-release-amd64
+
+freebsd_build_task:
+  timeout_in: 100m # default is 60m
+
+  env:
+    CIRRUS_CLONE_DEPTH: 1
+
+  prepare_script:
+    - pkg install -y bash nano cmake openssl ca_root_nss icu libunwind krb5 git
+    - git submodule update --init
+
+  build_script: ./build.sh
