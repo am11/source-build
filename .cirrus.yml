@@ -1,0 +1,17 @@
+freebsd_instance:
+  image: freebsd-11-2-release-amd64
+
+freebsd_build_task:
+  timeout_in: 100m # default is 60m
+
+  env:
+    CIRRUS_CLONE_DEPTH: 1
+
+  prepare_script:
+    - pkg install -y bash nano cmake openssl ca_root_nss icu libunwind krb5 git llvm lttng-ust
+    - git submodule update --init
+
+  build_script:
+    - mkdir ~/seed-cli
+    - curl -sSL https://dotnetcli.azureedge.net/dotnet/Sdk/3.1.100-preview1-014459/dotnet-sdk-3.1.100-preview1-014459-linux-x64.tar.gz | tar xvzf - --strip-components 1 -C ~/seed-cli > /dev/null
+    - scripts/bootstrap/buildbootstrapcli.sh -rid freebsd-x64 -os FreeBSD -seedcli ~/seed-cli
